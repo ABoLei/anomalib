@@ -1,7 +1,7 @@
 dataset:
-  name: brainwave_smt_comp_type1
+  name: brainwave_smt_comp_type1_5epoch_v2
   format: folder #options: [mvtec, btech, folder]
-  path: D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v3
+  path: D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v1/train # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v3 # 
   normal_dir: good # name of the folder containing normal images.
   abnormal_dir: defected # name of the folder containing abnormal images.
   task: classification # classification or segmentation
@@ -11,16 +11,16 @@ dataset:
   split_ratio: 0.2  # ratio of the normal images that will be used to create a test split
   seed: 0
   image_size: [18, 43]
-  train_batch_size: 128
-  test_batch_size: 128
+  train_batch_size: 8
+  test_batch_size: 1
   num_workers: 0
   transform_config:
     train: null
     val: null
   create_validation_set: false
   tiling:
-    apply: false
-    tile_size: null
+    apply: true
+    tile_size: 10
     stride: null
     remove_border_count: 0
     use_random_tiling: False
@@ -75,13 +75,13 @@ trainer:
   gpus: null # Set automatically
   gradient_clip_val: 0
   ipus: null
-  limit_predict_batches: 1.0
-  limit_test_batches: 1.0
-  limit_train_batches: 1.0
-  limit_val_batches: 1.0
+  limit_predict_batches: 0.01
+  limit_test_batches: 0.01
+  limit_train_batches: 0.01
+  limit_val_batches: 0.01
   log_every_n_steps: 50
   log_gpu_memory: null
-  max_epochs: 1
+  max_epochs: 5 # 1
   max_steps: -1
   max_time: null
   min_epochs: null

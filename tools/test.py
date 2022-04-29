@@ -19,6 +19,8 @@ from argparse import ArgumentParser, Namespace
 
 from pytorch_lightning import Trainer
 
+import sys
+sys.path.append("../anomalib")
 from anomalib.config import get_configurable_parameters
 from anomalib.data import get_datamodule
 from anomalib.models import get_model

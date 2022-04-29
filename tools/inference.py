@@ -27,6 +27,9 @@ from typing import Optional
 import cv2
 import numpy as np
 
+import sys
+
+sys.path.append("../anomalib")
 from anomalib.config import get_configurable_parameters
 from anomalib.deploy.inferencers.base import Inferencer
 
@@ -71,10 +74,25 @@ def add_label(prediction: np.ndarray, scores: float, font: int = cv2.FONT_HERSHE
     text = f"Confidence Score {scores:.0%}"
     font_size = prediction.shape[1] // 1024 + 1  # Text scale is calculated based on the reference size of 1024
     (width, height), baseline = cv2.getTextSize(text, font, font_size, thickness=font_size // 2)
+    width = prediction.shape[1] * 2 if width < prediction.shape[1] else width
+    height = prediction.shape[0] * 2 if height < prediction.shape[0] else height
+
     label_patch = np.zeros((height + baseline, width + baseline, 3), dtype=np.uint8)
     label_patch[:, :] = (225, 252, 134)
     cv2.putText(label_patch, text, (0, baseline // 2 + height), font, font_size, 0)
-    prediction[: baseline + height, : baseline + width] = label_patch
+
+    if (
+        prediction.shape[0] <= label_patch.shape[0] and prediction.shape[1] <= label_patch.shape[1]
+    ):  # if prediction image size is smaller than label_patch, overlay the prediction on the top of label_patch
+        top = 0
+        bottom = top + prediction.shape[0]
+        left = label_patch.shape[1] // 2 - prediction.shape[1] // 2
+        right = left + prediction.shape[1]
+        label_patch[top:bottom, left:right] = prediction
+        prediction = label_patch
+    else:
+        prediction[: baseline + height, : baseline + width] = label_patch
+
     return prediction
 
 
