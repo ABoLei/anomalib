@@ -45,9 +45,11 @@ metrics:
   image:
     - F1Score
     - AUROC
+    - AdaptiveThreshold
   pixel:
     - F1Score
     - AUROC
+    - AdaptiveThreshold
 
 project:
   seed: 0
