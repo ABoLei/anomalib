@@ -1,7 +1,7 @@
 dataset:
-  name: brainwave_smt_comp_type1_v5_original_lighting_cond_1
+  name: brainwave_smt_comp_RC0201
   format: folder #options: [mvtec, btech, folder]
-  path: D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v5_original_lighting_cond_1 # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v3 #
+  path: D:/Playground/BW2.0/Images/m125/modeling/patchcore/v20220505_sample100/patchcore # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v5_original_lighting_cond_1 # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v3 #
   normal_dir: good # name of the folder containing normal images.
   abnormal_dir: defected # name of the folder containing abnormal images.
   task: classification # classification or segmentation
@@ -10,8 +10,8 @@ dataset:
   extensions: [.png]
   split_ratio: 0.2 # ratio of the normal images that will be used to create a test split
   seed: 0
-  image_size: [18, 43]
-  train_batch_size: 8
+  image_size: [36, 56] # [18, 43]
+  train_batch_size: 64
   test_batch_size: 1
   num_workers: 0
   transform_config:
