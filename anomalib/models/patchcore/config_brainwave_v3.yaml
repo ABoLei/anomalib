@@ -1,0 +1,106 @@
+dataset:
+  name: brainwave_smt_comp_RC0201_v3.2
+  format: folder #options: [mvtec, btech, folder]
+  path: D:/Playground/BW2.0/Images/m125/modeling/patchcore/v20220505_sample100/patchcore # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v5_original_lighting_cond_1 # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v3 #
+  normal_dir: good_v2 # name of the folder containing normal images.
+  abnormal_dir: defected_v2 # name of the folder containing abnormal images.
+  task: segmentation # classification or segmentation
+  normal_test_dir: null
+  mask: D:/Playground/BW2.0/Images/m125/modeling/patchcore/v20220505_sample100/patchcore/defected_v2_mask #<path/to/mask/annotations> #optional
+  extensions: [.png]
+  split_ratio: 1 # ratio of the normal images that will be used to create a test split
+  seed: 42
+  image_size: [36, 56] # [18, 43]
+  train_batch_size: 64
+  test_batch_size: 1
+  num_workers: 0
+  transform_config:
+    train: null
+    val: null
+  create_validation_set: true
+  tiling:
+    apply: false
+    tile_size: 10
+    stride: null
+    remove_border_count: 0
+    use_random_tiling: False
+    random_tile_count: 16
+
+model:
+  name: patchcore
+  backbone: wide_resnet50_2
+  layers:
+    - layer2
+    - layer3
+  coreset_sampling_ratio: 0.1
+  num_neighbors: 9
+  weight_file: weights/model.ckpt
+  normalization_method: min_max # options: [null, min_max, cdf]
+  threshold:
+    image_default: 0
+    pixel_default: 0
+    adaptive: true
+
+metrics:
+  image:
+    - F1Score
+    - AUROC
+    - AdaptiveThreshold
+  pixel:
+    - F1Score
+    - AUROC
+    - AdaptiveThreshold
+
+project:
+  seed: 0
+  path: ./results
+  log_images_to: [local, wandb, tensorboard] # [local]
+  logger: [wandb, tensorboard] # false # options: [tensorboard, wandb, csv] or combinations.
+
+# PL Trainer Args. Don't add extra parameter here.
+trainer:
+  accelerator: auto # <"cpu", "gpu", "tpu", "ipu", "hpu", "auto">
+  accumulate_grad_batches: 1
+  amp_backend: native
+  auto_lr_find: false
+  auto_scale_batch_size: false
+  auto_select_gpus: false
+  benchmark: false
+  check_val_every_n_epoch: 1 # Don't validate before extracting features.
+  default_root_dir: null
+  detect_anomaly: false
+  deterministic: false
+  enable_checkpointing: true
+  enable_model_summary: true
+  enable_progress_bar: true
+  fast_dev_run: false
+  gpus: null # Set automatically
+  gradient_clip_val: 0
+  ipus: null
+  limit_predict_batches: 1
+  limit_test_batches: 3840
+  limit_train_batches: 1
+  limit_val_batches: 2
+  log_every_n_steps: 50
+  log_gpu_memory: null
+  max_epochs: 21 # 1
+  max_steps: -1
+  max_time: null
+  min_epochs: null
+  min_steps: null
+  move_metrics_to_cpu: false
+  multiple_trainloader_mode: max_size_cycle
+  num_nodes: 1
+  num_processes: 1
+  num_sanity_val_steps: 0
+  overfit_batches: 0.0
+  plugins: null
+  precision: 32
+  profiler: null
+  reload_dataloaders_every_n_epochs: 0
+  replace_sampler_ddp: true
+  strategy: null
+  sync_batchnorm: false
+  tpu_cores: null
+  track_grad_norm: -1
+  val_check_interval: 1.0 # Don't validate before extracting features.

@@ -1,23 +1,23 @@
 dataset:
-  name: brainwave_smt_comp_RC0201
+  name: brainwave_smt_comp_RC0201_good_glue_smt_comp_only
   format: folder #options: [mvtec, btech, folder]
   path: D:/Playground/BW2.0/Images/m125/modeling/patchcore/v20220505_sample100/patchcore # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v5_original_lighting_cond_1 # D:/Playground/BW2.0/CNN/dataset/smt_comp_type1/v3 #
-  normal_dir: good # name of the folder containing normal images.
-  abnormal_dir: defected # name of the folder containing abnormal images.
+  normal_dir: good_glue_smt_comp_only # name of the folder containing normal images.
+  abnormal_dir: defected_v2 # name of the folder containing abnormal images.
   task: classification # classification or segmentation
   normal_test_dir: null
   mask: null #<path/to/mask/annotations> #optional
   extensions: [.png]
   split_ratio: 0.2 # ratio of the normal images that will be used to create a test split
-  seed: 0
+  seed: 42
   image_size: [36, 56] # [18, 43]
-  train_batch_size: 64
+  train_batch_size: 256
   test_batch_size: 1
   num_workers: 0
   transform_config:
     train: null
     val: null
-  create_validation_set: false
+  create_validation_set: true
   tiling:
     apply: true
     tile_size: 10
@@ -55,7 +55,7 @@ project:
   seed: 0
   path: ./results
   log_images_to: [local]
-  logger: false # options: [tensorboard, wandb, csv] or combinations.
+  logger: [csv] # false # options: [tensorboard, wandb, csv] or combinations.
 
 # PL Trainer Args. Don't add extra parameter here.
 trainer:
@@ -78,12 +78,12 @@ trainer:
   gradient_clip_val: 0
   ipus: null
   limit_predict_batches: 1
-  limit_test_batches: 1
+  limit_test_batches: 256
   limit_train_batches: 1
-  limit_val_batches: 1
+  limit_val_batches: 2
   log_every_n_steps: 50
   log_gpu_memory: null
-  max_epochs: 100 # 1
+  max_epochs: 9 # 1
   max_steps: -1
   max_time: null
   min_epochs: null

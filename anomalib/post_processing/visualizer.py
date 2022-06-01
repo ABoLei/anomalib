@@ -18,8 +18,11 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 import cv2
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+
+matplotlib.use("Agg")
 
 
 class Visualizer:
