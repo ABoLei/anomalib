@@ -54,7 +54,7 @@ metrics:
 project:
   seed: 0
   path: ./results
-  log_images_to: [local, wandb, tensorboard] # [local]
+  log_images_to: [local]
   logger: [wandb, tensorboard] # false # options: [tensorboard, wandb, csv] or combinations.
 
 # PL Trainer Args. Don't add extra parameter here.
