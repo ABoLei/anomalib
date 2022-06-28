@@ -59,6 +59,16 @@ class Inferencer(ABC):
         """Post-Process."""
         raise NotImplementedError
 
+    @abstractmethod
+    def get_image_threshold(self) -> float:
+        """Get the image threshold of model."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_pixel_threshold(self) -> float:
+        """Get the pixel threshold of model."""
+        raise NotImplementedError
+
     def predict(
         self, image: Union[str, np.ndarray, Path], superimpose: bool = True, meta_data: Optional[dict] = None
     ) -> Tuple[np.ndarray, float]:

@@ -84,6 +84,7 @@ class TorchInferencer(Inferencer):
         """
         model = get_model(self.config)
         model.load_state_dict(torch.load(path)["state_dict"])
+        model.to(torch.device("cuda"))
         model.eval()
         return model
 
@@ -104,7 +105,7 @@ class TorchInferencer(Inferencer):
         if len(processed_image) == 3:
             processed_image = processed_image.unsqueeze(0)
 
-        return processed_image
+        return processed_image.cuda()
 
     def forward(self, image: Tensor) -> Tensor:
         """Forward-Pass input tensor to the model.
@@ -162,3 +163,19 @@ class TorchInferencer(Inferencer):
             anomaly_map = cv2.resize(anomaly_map, (image_width, image_height))
 
         return anomaly_map, float(pred_score)
+
+    def get_image_threshold(self) -> float:
+        """Get the image threshold of model.
+
+        Returns:
+            float: image threshold.
+        """
+        return self.model.image_threshold.item()
+
+    def get_pixel_threshold(self) -> float:
+        """Get the pixel threshold of model.
+
+        Returns:
+            float: pixel threshold.
+        """
+        return self.model.pixel_threshold.item()
