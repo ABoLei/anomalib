@@ -170,7 +170,7 @@ class TorchInferencer(Inferencer):
         Returns:
             float: image threshold.
         """
-        return self.model.image_threshold.item()
+        return self.model.image_threshold.value.item()
 
     def get_pixel_threshold(self) -> float:
         """Get the pixel threshold of model.
@@ -178,4 +178,4 @@ class TorchInferencer(Inferencer):
         Returns:
             float: pixel threshold.
         """
-        return self.model.pixel_threshold.item()
+        return self.model.pixel_threshold.value.item()
